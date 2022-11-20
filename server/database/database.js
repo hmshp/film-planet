@@ -18,35 +18,14 @@ export async function getUsers() {
   return db.collection("users");
 }
 
-// export async function run() {
-//   try {
-//     await client.connect();
-//     console.log("Connected correctly to server");
-//     const database = client.db("movieArchive");
-//     // Use the collection "users"
-//     const col = database.collection("users");
-
-//     // Construct a document
-//     let userDocument = {
-//       username: "hyemi",
-//       password: "1118",
-//       name: "Hyemi",
-//       email: "abc@gmali.com",
-//     };
-
-//     // Insert a single document, wait for promise so we can read it back
-//     const p = await col.insertOne(userDocument);
-//     // Find one document
-//     const myDoc = await col.findOne();
-//     // Print to the console
-//     console.log(myDoc);
-//   } catch (err) {
-//     console.log(err.stack);
-//   } finally {
-//     // Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
-// }
+export async function createUser(userInfo) {
+  const users = await getUsers();
+  // Insert a single document, wait for promise so we can read it back
+  await users.insertOne(userInfo);
+  // // Find one document
+  const user = await users.findOne({ username: userInfo.username });
+  return user;
+}
 
 // export async function run() {
 //   try {
