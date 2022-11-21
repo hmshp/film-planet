@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
+import { asyncLogin } from '../../redux/authSlice';
+import login from "../../service/auth";
 
 const Login = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const status = useSelector((state) => {
+    return state.user.status
+  })
+
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData((prevData) => {
+      return { ...prevData, [e.target.name]: e.target.value };
+    });
+  };
 
   return (
     <>
@@ -11,18 +29,29 @@ const Login = () => {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            navigate("/");
+            dispatch(asyncLogin(formData))
           }}
         >
           <div>
             <label htmlFor="username">아이디: </label>
-            <input type="text" name="username" id="username" />
+            <input
+              onChange={handleChange}
+              type="text"
+              name="username"
+              id="username"
+            />
           </div>
           <div>
             <label htmlFor="password">비밀번호:</label>
-            <input type="password" name="password" id="password" />
+            <input
+              onChange={handleChange}
+              type="password"
+              name="password"
+              id="password"
+            />
           </div>
           <button>로그인</button>
+          <p><b>{status}</b></p>
         </form>
       </main>
       <aside>
