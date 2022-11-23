@@ -34,13 +34,17 @@ export async function getPostCollection() {
 }
 
 export async function createPost(post) {
-  const posts = await getPostCollection();
-  await posts.insertOne(post);
+  const postCollection = await getPostCollection();
+  await postCollection.insertOne(post);
   return post;
 }
 
-export async function getPosts(username) {
-
+export async function getPosts(userId) {
+  const postCollection = await getPostCollection();
+  const posts = await postCollection.find({
+    userId: userId
+  }).toArray();
+  return posts;
 }
 
 // export async function run() {
