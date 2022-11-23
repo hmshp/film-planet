@@ -14,17 +14,33 @@ export async function connectDB() {
   console.log("Connected successfully to Mongo DB server");
 }
 
-export async function getUsers() {
+export async function getUserCollection() {
   return db.collection("users");
 }
 
 export async function createUser(userInfo) {
-  const users = await getUsers();
+  const users = await getUserCollection();
   // Insert a single document, wait for promise so we can read it back
   await users.insertOne(userInfo);
   // // Find one document
   const user = await users.findOne({ username: userInfo.username });
   return user;
+}
+
+// products 관련 코드
+
+export async function getPostCollection() {
+  return db.collection("posts");
+}
+
+export async function createPost(post) {
+  const posts = await getPostCollection();
+  await posts.insertOne(post);
+  return post;
+}
+
+export async function getPosts(username) {
+
 }
 
 // export async function run() {
