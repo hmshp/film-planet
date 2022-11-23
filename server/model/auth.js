@@ -7,7 +7,7 @@ export async function createUser(userInfo) {
 
 // username에 맞는 user 정보 리턴
 export async function findByUsername(username) {
-  const users = await db.getUsers();
+  const users = await db.getUserCollection();
   const user = users.findOne({ username }).then((data) => {
     return data;
   });
