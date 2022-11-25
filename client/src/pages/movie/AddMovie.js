@@ -1,23 +1,79 @@
-import React from "react";
-import MovieForm from "../../components/MovieForm";
+import React, { useState } from "react";
+import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import { asyncCreatePost } from '../../redux/postSlice';
 
 const tempBorderStyle = {
   border: "3px solid pink",
   padding: "24px",
 };
 
-const movie = {
-  title: "리틀 포레스트",
-  review: "지칠 때마다 내 마음을 달래주는 영화",
-  url: "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20180116_52%2F1516069056006yS0CC_JPEG%2Fmovie_image.jpg",
-  comment:
-    "엔딩 장면에서 혜원의 엄마가 다시 돌아온 걸까? 다음번에는 혜원이 엄마의시점에서 영화를 한 번 더 보고 싶다.",
-};
-
 const AddMovie = () => {
+  const [formData, setFormData] = useState({
+    title: "",
+    review: "",
+    url: "",
+    comment: "",
+  });
+
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    dispatch(asyncCreatePost(formData))
+  }
+
   return (
     <main style={tempBorderStyle}>
-      <MovieForm />
+      <form>
+        <div>
+          <label htmlFor="title">제목</label>
+          <input
+            onChange={handleChange}
+            value={formData.title}
+            name="title"
+            type="text"
+            id="title"
+          />
+        </div>
+        <div>
+          <label htmlFor="review">한줄평</label>
+          <input
+            onChange={handleChange}
+            value={formData.review}
+            name="review"
+            type="text"
+            id="review"
+          />
+        </div>
+        <div>
+          <label htmlFor="url">URL</label>
+          <input
+            onChange={handleChange}
+            value={formData.url}
+            name="url"
+            type="url"
+            id="url"
+          />
+        </div>
+        <div>
+          <label htmlFor="comment">코멘트</label>
+          <textarea
+            onChange={handleChange}
+            value={formData.comment}
+            name="comment"
+            id="comment"
+          ></textarea>
+        </div>
+        <Link to="/:username">
+          <button>취소</button>
+        </Link>
+        <button onClick={handleSubmit}>등록</button>
+      </form>
     </main>
   );
 };
