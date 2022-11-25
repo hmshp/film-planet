@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { asyncGetPostById } from '../../redux/postSlice';
+import { getPostById } from '../../service/posts';
 
 const tempBorderStyle = {
   border: "3px solid pink",
@@ -12,24 +16,35 @@ const tempImgStyle = {
 };
 
 const Movie = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const post = useSelector((state) => {
+    return state.post.selectedPost;
+  })
+
+  const DEFAULT_URL = "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20180116_52%2F1516069056006yS0CC_JPEG%2Fmovie_image.jpg";
+  
+  useEffect(() => {
+    dispatch(asyncGetPostById(id));
+  }, [])
+
   return (
     <main style={tempBorderStyle}>
       <article>
         <div>
-          <Link to="/edit-movie/1">
+          <Link to={`/edit-movie/${post.id}`}>
             <button>수정</button>
           </Link>
           <button>삭제</button>
         </div>
-        <h1>리틀 포레스트</h1>
-        <h2>지칠 때마다 내 마음을 달래주는 영화</h2>
+        <h1>{post.title}</h1>
+        <h2>{post.review}</h2>
         <img
-          src="https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20180116_52%2F1516069056006yS0CC_JPEG%2Fmovie_image.jpg"
+          src={post.url || DEFAULT_URL}
           style={tempImgStyle}
         />
         <p>
-          엔딩 장면에서 혜원의 엄마가 다시 돌아온 걸까? 다음번에는 혜원이 엄마의
-          시점에서 영화를 한 번 더 보고 싶다.
+          {post.comment}
         </p>
       </article>
     </main>
