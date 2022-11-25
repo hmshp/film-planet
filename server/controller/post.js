@@ -2,8 +2,6 @@ import * as postRepository from "../model/post.js";
 
 export async function createPost(req, res) {
   const { title, review, comment, url, userId } = req.body;
-  console.log(" === 여기는 controller 내부 === ");
-  console.log(req.body);
   const post = await postRepository.create({
     title,
     review,
@@ -18,13 +16,33 @@ export async function getPosts(req, res) {
   const userId = req.body.userId;
   console.log(`userId: ${userId}`);
   const posts = await postRepository.getAllByUserId(userId);
-  const mappedPosts = posts.map((post) => mapPost(post))
+  const mappedPosts = posts.map((post) => mapPost(post));
   res.status(200).json(mappedPosts);
+}
+
+export async function getPostDetail(req, res) {
+  const id = req.params.id;
+  const post = await postRepository.getById(id);
+  if (!post) {
+    return res.status(404).json(`Post id ${id} not found`);
+  }
+  const mappedPost = mapPost(post);
+  res.status(200).json(mappedPost);
+}
+
+export async function updatePost(req, res) {
+  const id = req.params.id;
+  const { title, comment, review, url } = req.body;
+  const updatedPost = await postRepository.update({title, comment, review, url, id});
+  if (!updatedPost) {
+    return res.status(404).json(`Post id ${id} not found`);
+  }
+  res.status(200).json(updatedPost);
 }
 
 // 앱에서는 '_id' 가 아니가 'id' 형태로 사용하므로 변환하는 게 좋은 듯
 function mapPost(post) {
-  return {...post, id: post._id};
+  return { ...post, id: post._id };
 }
 
 // export async function getPost(req, res) {
@@ -37,7 +55,6 @@ function mapPost(post) {
 //     res.status(404).json({ message: `post id(${id}) not found` });
 //   }
 // }
-
 
 // 몇 개 항목을 수정할지 모르는데, 몇 개 든 다 잘 수정되게 하려면 어떻게 해야 할지???
 // 우선 다 수정한다는 시나리오로 API 작성했다.

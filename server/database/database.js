@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { config } from "../config.js";
 
 // Replace the uri string with your connection string.
@@ -45,6 +45,30 @@ export async function getPosts(userId) {
     userId: userId
   }).toArray();
   return posts;
+}
+
+export async function updatePost(data) {
+  const { title, comment, review, url, id } = data;
+  const postCollection = await getPostCollection();
+  const filter = { _id: ObjectId(id) };
+  const updateDocument = {
+    $set: {
+        title: title,
+        comment: comment,
+        review: review,
+        url: url,
+    },
+  };
+  await postCollection.updateOne(filter, updateDocument);
+  // 업데이트한 게시물 리턴 (그냥 postman 확인차)
+  const updatedPost = getPostById(id);
+  return updatedPost;
+}
+
+export async function getPostById(id) {
+  const postCollection = await getPostCollection();
+  const post = await postCollection.findOne({_id: ObjectId(id)});
+  return post;
 }
 
 // export async function run() {
