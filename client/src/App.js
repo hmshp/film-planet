@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Header from "./components/Header";
 import Home from "./pages/home/Home";
-import MyHome from "./pages/home/MyHome";
+import MyHome from "./components/MyHome";
 import Movie from "./pages/movie/Movie";
 import EditMovie from './pages/movie/EditMovie';
 import AddMovie from './pages/movie/AddMovie';
@@ -20,7 +20,6 @@ function App() {
       <Header />
       <Routes>
         <Route index element={<Home />} />
-        <Route exact path="/:username" element={<MyHome />} />
         <Route path="/movies/:id" element={<Movie />} />
         <Route path="/edit-movie/:id" element={<EditMovie />} />
         <Route path="/add-movie" element={<AddMovie />} />
