@@ -20,7 +20,7 @@ export async function getPosts(req, res) {
   res.status(200).json(mappedPosts);
 }
 
-export async function getPostDetail(req, res) {
+export async function getPostById(req, res) {
   const id = req.params.id;
   const post = await postRepository.getById(id);
   if (!post) {
