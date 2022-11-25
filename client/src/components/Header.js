@@ -24,7 +24,7 @@ const Header = () => {
         <img src={logo} alt="영화 저장소 로고" style={tempLogoStyles} />
       </a>
       {isMoviePage() && (
-        <Link to="/hyemi">
+        <Link to="/">
           <button>뒤로가기</button>
         </Link>
       )}
