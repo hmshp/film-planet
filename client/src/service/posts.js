@@ -13,12 +13,13 @@ export async function getPosts() {
 
 export async function createPost(post) {
   console.log(post);
-  const response = await axios.post(`${baseUrl}/posts`,
+  const response = await axios.post(
+    `${baseUrl}/posts`,
     {
       title: post.title,
       review: post.review,
       url: post.url,
-      comment: post.comment
+      comment: post.comment,
     },
     {
       headers: getHeaders(),
@@ -27,10 +28,27 @@ export async function createPost(post) {
   return response;
 }
 
+export async function updatePost(data) {
+  const { formData, id } = data;
+  const { title, review, comment, url } = formData;
+  const response = await axios.put(`${baseUrl}/posts/${id}`, {
+    title, review, comment, url
+  }, {
+    headers: getHeaders(),
+  });
+  console.log(response);
+}
+
+export async function deletePost(id) {
+  await axios.delete(`${baseUrl}/posts/${id}`, {
+    headers: getHeaders(),
+  })
+}
+
 export async function getPostById(id) {
   const response = await axios.get(`${baseUrl}/posts/${id}`, {
     headers: getHeaders(),
-  })
+  });
   return response;
 }
 

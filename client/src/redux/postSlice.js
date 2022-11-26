@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { createPost, getPostById, getPosts } from '../service/posts.js';
+import { createPost, updatePost, deletePost, getPostById, getPosts } from '../service/posts.js';
 
 export const asyncGetPosts = createAsyncThunk(
   "postSlice/asyncGetPosts",
@@ -14,6 +14,20 @@ export const asyncCreatePost = createAsyncThunk(
   async(post) => {
     const response = await createPost(post);
     console.log(response);
+  }
+)
+
+export const asyncUpdatePost = createAsyncThunk(
+  "postSlice/asyncUpdatePost",
+  async(data) => {
+    const response = await updatePost(data);
+  }
+)
+
+export const asyncDeletePost = createAsyncThunk(
+  "postSlice/asyncDeletePost",
+  async(id) => {
+    await deletePost(id);
   }
 )
 
