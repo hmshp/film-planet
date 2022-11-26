@@ -65,6 +65,11 @@ export async function updatePost(data) {
   return updatedPost;
 }
 
+export async function deletePost(id) {
+  const postCollection = await getPostCollection();
+  await postCollection.deleteOne({ _id: ObjectId(id)});
+}
+
 export async function getPostById(id) {
   const postCollection = await getPostCollection();
   const post = await postCollection.findOne({_id: ObjectId(id)});

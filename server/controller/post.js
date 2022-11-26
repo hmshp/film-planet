@@ -40,6 +40,12 @@ export async function updatePost(req, res) {
   res.status(200).json(updatedPost);
 }
 
+export async function deletePost(req, res) {
+  const id = req.params.id;
+  const deletedPost = await postRepository.remove(id);
+  res.status(204).json("delete 테스트 중");
+}
+
 // 앱에서는 '_id' 가 아니가 'id' 형태로 사용하므로 변환하는 게 좋은 듯
 function mapPost(post) {
   return { ...post, id: post._id };
