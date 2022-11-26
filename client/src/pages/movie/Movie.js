@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from "react-router-dom";
-import { asyncGetPostById } from '../../redux/postSlice';
+import { asyncGetPostById, asyncDeletePost } from '../../redux/postSlice';
 import { getPostById } from '../../service/posts';
 
 const tempBorderStyle = {
@@ -17,12 +17,21 @@ const tempImgStyle = {
 
 const Movie = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const DEFAULT_URL = "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20180116_52%2F1516069056006yS0CC_JPEG%2Fmovie_image.jpg";
+
   const dispatch = useDispatch();
   const post = useSelector((state) => {
     return state.post.selectedPost;
   })
 
-  const DEFAULT_URL = "https://search.pstatic.net/common?quality=75&direct=true&src=https%3A%2F%2Fmovie-phinf.pstatic.net%2F20180116_52%2F1516069056006yS0CC_JPEG%2Fmovie_image.jpg";
+  const handleDelete = (e) => {
+    dispatch(asyncDeletePost(id))
+      .then(() => {
+        navigate('/');
+      })
+  }
   
   useEffect(() => {
     dispatch(asyncGetPostById(id));
@@ -35,7 +44,7 @@ const Movie = () => {
           <Link to={`/edit-movie/${post.id}`}>
             <button>수정</button>
           </Link>
-          <button>삭제</button>
+          <button onClick={handleDelete}>삭제</button>
         </div>
         <h1>{post.title}</h1>
         <h2>{post.review}</h2>

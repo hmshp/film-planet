@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { asyncUpdatePost } from '../../redux/postSlice';
 
 const tempBorderStyle = {
   border: "3px solid pink",
@@ -8,6 +9,9 @@ const tempBorderStyle = {
 };
 
 const EditMovie = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
   const selectedPost = useSelector((state) => {
     return state.post.selectedPost;
   });
@@ -24,6 +28,9 @@ const EditMovie = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(asyncUpdatePost({ formData, id })).then(() => {
+      navigate('/');
+    })
   }
 
   return (

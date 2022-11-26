@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { asyncCreatePost } from '../../redux/postSlice';
 
 const tempBorderStyle = {
@@ -17,6 +17,7 @@ const AddMovie = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +25,9 @@ const AddMovie = () => {
   };
 
   const handleSubmit = () => {
-    dispatch(asyncCreatePost(formData))
+    dispatch(asyncCreatePost(formData)).then(() => {
+      navigate('/');
+    })
   }
 
   return (
