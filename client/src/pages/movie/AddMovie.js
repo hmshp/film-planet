@@ -24,7 +24,8 @@ const AddMovie = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     dispatch(asyncCreatePost(formData)).then(() => {
       navigate('/');
     })
