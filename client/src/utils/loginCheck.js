@@ -1,3 +1,3 @@
-export const isLoggedIn = (user) => {
-  return user.token? true : false;
+export function isValidLogin(username) {
+  return username ? true : false;
 }

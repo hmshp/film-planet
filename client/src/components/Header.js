@@ -3,13 +3,7 @@ import styled from "styled-components/macro";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../service/auth";
-import { isLoggedIn } from "../utils/loginCheck";
-import Wave from "./Wave";
-
-const tempLogoStyles = {
-  width: "140px",
-  height: "140px",
-};
+import { isValidLogin } from "../utils/loginCheck.js"
 
 const StyledHeader = styled.header`
   /* background: #1b2831; */
@@ -26,8 +20,13 @@ const StyledHeader = styled.header`
   font-family: "Italiana", serif;
 `;
 
+const LogoLink = styled.a`
+  text-decoration: none;
+`
+
 const Logo = styled.h1`
   color: white;
+  cursor: pointer;
 `;
 
 const UserButtonWrapper = styled.div`
@@ -52,8 +51,8 @@ const LoginButton = styled.button`
 
 const Header = () => {
   const location = useLocation();
-  const user = useSelector((state) => {
-    return state.user;
+  const username = useSelector((state) => {
+    return state.user.username;
   });
 
   const isMoviePage = () => {
@@ -67,9 +66,10 @@ const Header = () => {
   // 파도 scale 효과로 커질 때 x축 오버플로 방지하기 위해 부모인 Header에 overflow:hidden 줬다.
   return (
     <StyledHeader>
-      <Logo>FilmPlanet</Logo>
-
-      {isLoggedIn(user) ? (
+      <LogoLink href="/">
+        <Logo>FilmPlanet</Logo>
+      </LogoLink>
+      {isValidLogin(username) ? (
         // 새로고침하기 위해 a 사용
         <UserButtonWrapper>
           <a href="/">
