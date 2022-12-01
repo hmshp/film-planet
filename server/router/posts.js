@@ -7,12 +7,12 @@ const router = express.Router();
 
 router.get("/", isAuth, postController.getPosts);
 
-// router.get("/:id", isAuth, postController.getPost);
+router.get("/:id", isAuth, postController.getPostById);
 
 router.post("/", isAuth, postController.createPost);
 
-// router.put("/:id", isAuth, postController.updatePost);
+router.put("/:id", isAuth, postController.updatePost);
 
-// router.delete("/:id", isAuth, postController.deletePost);
+router.delete("/:id", isAuth, postController.deletePost);
 
 export default router;
