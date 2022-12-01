@@ -35,6 +35,14 @@ export async function findByUsername(username) {
   return user;
 }
 
+export async function findbyId(userId) {
+  const users = await getUserCollection();
+  const user = users.findOne({ _id: ObjectId(userId) }).then((data) => {
+    return data;
+  });
+  return user;
+}
+
 // products 관련 코드
 
 export async function getPostCollection() {

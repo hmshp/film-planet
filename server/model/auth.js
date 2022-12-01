@@ -13,6 +13,6 @@ export async function findByUsername(username) {
 
 // 토큰이 유효하다면(=유효한 사용자라면) token, username 리턴.
 export async function findById(userId) {
-  // const users = await db.getUserCollection();
-  console.log("findById test 중");
+  const user = await db.findbyId(userId);
+  return user;
 }
