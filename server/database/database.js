@@ -27,6 +27,14 @@ export async function createUser(userInfo) {
   return user;
 }
 
+export async function findByUsername(username) {
+  const users = await getUserCollection();
+  const user = users.findOne({ username }).then((data) => {
+    return data;
+  });
+  return user;
+}
+
 // products 관련 코드
 
 export async function getPostCollection() {
@@ -41,9 +49,11 @@ export async function createPost(post) {
 
 export async function getPosts(userId) {
   const postCollection = await getPostCollection();
-  const posts = await postCollection.find({
-    userId: userId
-  }).toArray();
+  const posts = await postCollection
+    .find({
+      userId: userId,
+    })
+    .toArray();
   return posts;
 }
 
@@ -53,10 +63,10 @@ export async function updatePost(data) {
   const filter = { _id: ObjectId(id) };
   const updateDocument = {
     $set: {
-        title: title,
-        comment: comment,
-        review: review,
-        url: url,
+      title: title,
+      comment: comment,
+      review: review,
+      url: url,
     },
   };
   await postCollection.updateOne(filter, updateDocument);
@@ -67,12 +77,12 @@ export async function updatePost(data) {
 
 export async function deletePost(id) {
   const postCollection = await getPostCollection();
-  await postCollection.deleteOne({ _id: ObjectId(id)});
+  await postCollection.deleteOne({ _id: ObjectId(id) });
 }
 
 export async function getPostById(id) {
   const postCollection = await getPostCollection();
-  const post = await postCollection.findOne({_id: ObjectId(id)});
+  const post = await postCollection.findOne({ _id: ObjectId(id) });
   return post;
 }
 
