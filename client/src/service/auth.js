@@ -1,4 +1,6 @@
 import axios from "axios";
+import { getHeaders } from "../utils/getHeaders";
+import { deleteToken, getToken } from "../utils/token";
 
 const baseUrl = "http://localhost:8080";
 
@@ -21,8 +23,31 @@ export async function signup(user) {
     username,
     password,
     name,
-    email
-  })
+    email,
+  });
 
   return response;
+}
+
+// 서버에 "내 토큰 아직도 유효해? 유효한지 알려줘." 라는 요청 보내기
+export async function me() {
+  return axios
+    .get(`${baseUrl}/auth/me`, {
+      headers: getHeaders(),
+    })
+    .then((response) => {
+      return response.data.username;
+    })
+    .catch(function (error) {
+      if (error.response.status === 401) {
+        return null;
+      } else if (error.request) {
+        // 요청이 전송되었지만, 응답이 수신되지 않은 경우
+        console.log(error.request);
+      }
+    });
+}
+
+export function logout() {
+  deleteToken();
 }
