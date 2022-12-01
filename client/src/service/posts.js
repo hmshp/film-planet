@@ -1,9 +1,11 @@
 import axios from "axios";
-import { getToken } from "../utils/token";
+import { getToken } from "../utils/token.js";
+import { getHeaders } from "../utils/getHeaders.js";
 
 const baseUrl = "http://localhost:8080";
 
 // 요청 보낼 때 Header Authorization으로 jwt 토큰을 보내면 서버에서 userId를 알아서 찾은 다음 그걸 활용해서 클라이언트의 요청을 처리해 준다
+
 export async function getPosts() {
   const posts = await axios.get(`${baseUrl}/posts`, {
     headers: getHeaders(),
@@ -31,18 +33,25 @@ export async function createPost(post) {
 export async function updatePost(data) {
   const { formData, id } = data;
   const { title, review, comment, url } = formData;
-  const response = await axios.put(`${baseUrl}/posts/${id}`, {
-    title, review, comment, url
-  }, {
-    headers: getHeaders(),
-  });
+  const response = await axios.put(
+    `${baseUrl}/posts/${id}`,
+    {
+      title,
+      review,
+      comment,
+      url,
+    },
+    {
+      headers: getHeaders(),
+    }
+  );
   console.log(response);
 }
 
 export async function deletePost(id) {
   await axios.delete(`${baseUrl}/posts/${id}`, {
     headers: getHeaders(),
-  })
+  });
 }
 
 export async function getPostById(id) {
@@ -50,11 +59,6 @@ export async function getPostById(id) {
     headers: getHeaders(),
   });
   return response;
-}
-
-function getHeaders() {
-  const token = getToken();
-  return { Authorization: `Bearer ${token}` };
 }
 
 // createPost 요청 보낼 때 파라미터로 userId도 보내야 되는데
