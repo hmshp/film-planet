@@ -95,7 +95,7 @@ const Signup = () => {
   return (
     <Wrapper>
       <Title>회원가입</Title>
-      <SignupForm>
+      <SignupForm onSubmit={handleSubmit}>
         <FormItem>
           <label htmlFor="username">아이디</label>
           <Input
@@ -138,7 +138,7 @@ const Signup = () => {
             id="email"
           />
         </FormItem>
-        <SubmitButton onClick={handleSubmit}>회원가입</SubmitButton>
+        <SubmitButton>회원가입</SubmitButton>
       </SignupForm>
       <Aside>
         <p>이미 계정이 있으신가요?</p>
