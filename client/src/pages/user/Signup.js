@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { asyncSignup } from "../../redux/authSlice";
 import { checkUsernameAvailibility } from "../../service/auth";
 
@@ -74,6 +76,12 @@ const Aside = styled.aside`
   gap: 12px;
 `;
 
+const StyledContainer = styled(ToastContainer)`
+  &&&.Toastify__toast-container {
+    width: 50%;
+  }
+`;
+
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -108,12 +116,20 @@ const Signup = () => {
     }
     dispatch(asyncSignup(formData)).then((data) => {
       console.log(data);
+      toast.success(<h3>가입이 완료되었습니다.</h3>, {
+        position: "top-center",
+        autoClose: 5000,
+      });
+      setTimeout(() => {
+        navigate("/login");
+      }, 5000);
       // navigate("/");
     });
   };
 
   return (
     <Wrapper>
+      <StyledContainer />
       <Title>회원가입</Title>
       <SignupForm onSubmit={handleSubmit}>
         <FormItem>
