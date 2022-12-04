@@ -1,12 +1,75 @@
 import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import styled from "styled-components/macro";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { asyncCreatePost } from '../../redux/postSlice';
+import { asyncCreatePost } from "../../redux/postSlice";
 
-const tempBorderStyle = {
-  border: "3px solid pink",
-  padding: "24px",
-};
+const Wrapper = styled.section`
+  width: 35%;
+  font-size: 1.1rem;
+  font-family: "Hahmlet", serif;
+  font-weight: 300;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 2.8rem;
+`;
+
+const FormItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const Input = styled.input`
+  border-radius: 4px;
+  border: none;
+  padding: 8px;
+`;
+
+const Textarea = styled.textarea`
+  border-radius: 4px;
+  padding: 8px;
+`;
+
+const ButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  background: linear-gradient(202.17deg, #1400ff 8.58%, #ad00ff 91.42%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  margin-top: 1rem;
+  cursor: pointer;
+  &:hover {
+    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
+  }
+`;
+
+const CancelLink = styled(Link)`
+  width: 40%;
+`;
+
+const CancelButton = styled(Button)`
+  width: 100%;
+  background: white;
+  color: #1b2831;
+  box-shadow: 1px 1.2px 1.2px grey;
+  &:hover {
+    background: #e4e1e1;
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  width: 40%;
+`;
 
 const AddMovie = () => {
   const [formData, setFormData] = useState({
@@ -27,58 +90,60 @@ const AddMovie = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(asyncCreatePost(formData)).then(() => {
-      navigate('/');
-    })
-  }
+      navigate("/");
+    });
+  };
 
   return (
-    <main style={tempBorderStyle}>
-      <form>
-        <div>
+    <Wrapper>
+      <Form>
+        <FormItem>
           <label htmlFor="title">제목</label>
-          <input
+          <Input
             onChange={handleChange}
             value={formData.title}
             name="title"
             type="text"
             id="title"
           />
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <label htmlFor="review">한줄평</label>
-          <input
+          <Input
             onChange={handleChange}
             value={formData.review}
             name="review"
             type="text"
             id="review"
           />
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <label htmlFor="url">URL</label>
-          <input
+          <Input
             onChange={handleChange}
             value={formData.url}
             name="url"
             type="url"
             id="url"
           />
-        </div>
-        <div>
+        </FormItem>
+        <FormItem>
           <label htmlFor="comment">코멘트</label>
-          <textarea
+          <Textarea
             onChange={handleChange}
             value={formData.comment}
             name="comment"
             id="comment"
-          ></textarea>
-        </div>
-        <Link to="/:username">
-          <button>취소</button>
-        </Link>
-        <button onClick={handleSubmit}>등록</button>
-      </form>
-    </main>
+          ></Textarea>
+        </FormItem>
+        <ButtonsWrapper>
+          <CancelLink to="/">
+            <CancelButton>취소</CancelButton>
+          </CancelLink>
+          <SubmitButton onClick={handleSubmit}>등록</SubmitButton>
+        </ButtonsWrapper>
+      </Form>
+    </Wrapper>
   );
 };
 
