@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components/macro";
 import { asyncSignup } from "../../redux/authSlice";
+import { checkUsernameAvailibility } from "../../service/auth";
 
 const Wrapper = styled.section`
   width: 35%;
@@ -35,6 +36,10 @@ const Input = styled.input`
   border-radius: 4px;
   border: none;
   padding: 8px;
+`;
+
+const UserIdAvailability = styled.p`
+  color: #ff9800;
 `;
 
 const SubmitButton = styled.button`
@@ -79,16 +84,31 @@ const Signup = () => {
     email: "",
   });
 
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState();
+
+  console.log(formData);
+  console.log(isUsernameAvailable);
+
   const handleChange = (e) => {
     setFormData((prevData) => {
       return { ...prevData, [e.target.name]: e.target.value };
     });
+    if (e.target.name === "username") {
+      checkUsernameAvailibility(e.target.value).then((availability) => {
+        setIsUsernameAvailable(availability);
+      });
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncSignup(formData)).then(() => {
-      navigate("/");
+    // 아이디 중복 메시지가 화면에 떠있긴 하지만, 혹시라도 그냥 클릭 눌러서 409 에러 발생하는 것 방지하기 위해 isUsernameAvailable가 false면 회원가입 요청을 아예 안 보내도록 아래 코드 작성하였음
+    if (!isUsernameAvailable) {
+      return;
+    }
+    dispatch(asyncSignup(formData)).then((data) => {
+      console.log(data);
+      // navigate("/");
     });
   };
 
@@ -106,6 +126,11 @@ const Signup = () => {
             name="username"
             id="username"
           />
+          <UserIdAvailability>
+            {!isUsernameAvailable &&
+              typeof isUsernameAvailable !== "undefined" &&
+              "이미 사용 중인 아이디입니다."}
+          </UserIdAvailability>
         </FormItem>
         <FormItem>
           <label htmlFor="password">비밀번호</label>

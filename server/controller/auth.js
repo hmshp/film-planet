@@ -8,15 +8,22 @@ const bcryptSaltRounds = config.bcrypt.saltRounds;
 const jwtSecretKey = config.jwt.secretKey;
 const expiresInSec = config.jwt.expiresInSec;
 
+export async function checkUsernameAvailibility(req, res, next) {
+  const found = await userRepository.findByUsername(req.body.username);
+  const availibility = found ? false : true;
+  res.status(200).json(availibility);
+}
+
 export async function signup(req, res) {
   const { username, password, name, email } = req.body;
-  console.log("여기는 controller내부");
 
   // 기존에 있는 username인지 확인하기!
   const found = await userRepository.findByUsername(username);
   console.log(found);
   if (found) {
-    return res.status(409).json({ message: `${username} already exists` });
+    return res
+      .status(409)
+      .json({ message: `${username}: 다른 사용자가 이미 사용 중입니다.` });
   }
 
   const hashed = await bcrypt.hash(password, bcryptSaltRounds);
@@ -59,9 +66,9 @@ export async function me(req, res) {
   const user = await userRepository.findById(req.body.userId);
   // isAuth에서 유효한 사용자인지 체크하긴 하지만 여기서 한 번 더 해 줬다
   if (!user) {
-    res.status(404).json({ message: "User not found"})
+    res.status(404).json({ message: "User not found" });
   }
-  res.status(200).json({ username: user.username});
+  res.status(200).json({ username: user.username });
 }
 
 function createJwtToken(id) {

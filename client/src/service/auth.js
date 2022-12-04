@@ -1,6 +1,6 @@
 import axios from "axios";
 import { getHeaders } from "../utils/getHeaders";
-import { deleteToken, getToken } from "../utils/token";
+import { deleteToken} from "../utils/token";
 
 const baseUrl = "http://localhost:8080";
 
@@ -27,6 +27,14 @@ export async function signup(user) {
   });
 
   return response;
+}
+
+export async function checkUsernameAvailibility(username) {
+  const response = await axios.post(`${baseUrl}/auth/exists/username`, {
+    username: username
+  })
+  const availability = response.data;
+  return availability;
 }
 
 // 서버에 "내 토큰 아직도 유효해? 유효한지 알려줘." 라는 요청 보내기
