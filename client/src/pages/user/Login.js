@@ -103,6 +103,8 @@ const Login = () => {
           <label htmlFor="username">아이디</label>
           <Input
             onChange={handleChange}
+            required
+            minLength="4"
             type="text"
             name="username"
             id="username"
@@ -112,6 +114,8 @@ const Login = () => {
           <label htmlFor="password">비밀번호</label>
           <Input
             onChange={handleChange}
+            required
+            minLength="4"
             type="password"
             name="password"
             id="password"

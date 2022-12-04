@@ -87,7 +87,9 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(asyncSignup(formData));
+    dispatch(asyncSignup(formData)).then(() => {
+      navigate("/");
+    });
   };
 
   return (
@@ -98,6 +100,8 @@ const Signup = () => {
           <label htmlFor="username">아이디</label>
           <Input
             onChange={handleChange}
+            required
+            minLength="4"
             type="text"
             name="username"
             id="username"
@@ -107,6 +111,8 @@ const Signup = () => {
           <label htmlFor="password">비밀번호</label>
           <Input
             onChange={handleChange}
+            required
+            minLength="4"
             type="password"
             name="password"
             id="password"
@@ -114,11 +120,23 @@ const Signup = () => {
         </FormItem>
         <FormItem>
           <label htmlFor="name">이름</label>
-          <Input onChange={handleChange} type="text" name="name" id="name" />
+          <Input
+            onChange={handleChange}
+            required
+            type="text"
+            name="name"
+            id="name"
+          />
         </FormItem>
         <FormItem>
           <label htmlFor="email">이메일</label>
-          <Input onChange={handleChange} type="email" name="email" id="email" />
+          <Input
+            onChange={handleChange}
+            required
+            type="email"
+            name="email"
+            id="email"
+          />
         </FormItem>
         <SubmitButton onClick={handleSubmit}>회원가입</SubmitButton>
       </SignupForm>
