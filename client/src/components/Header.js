@@ -6,11 +6,17 @@ import { logout } from "../service/auth";
 import { isValidLogin } from "../utils/loginCheck.js"
 
 const StyledHeader = styled.header`
-  /* background: #1b2831; */
-  position: relative;
+  position: fixed;
+  z-index: 1; /* 행성 이미지 호버할 때 이미지가 헤더를 덮어써버려서 */
+  width: 95%;
+  margin: 0 auto;
+  /* max-width: 100%; */
+  padding: 0 12px;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #1b2831;
   height: 90px;
-  margin-left: 24px;
-  margin-right: 24px;
   overflow: hidden;
   border-bottom: 1px solid #e6e3f0;
   display: flex;
@@ -34,7 +40,7 @@ const UserButtonWrapper = styled.div`
   gap: 8px;
 `;
 
-const LoginButton = styled.button`
+const Button = styled.button`
   padding: 12px 24px;
   border-radius: 4px;
   background: transparent;
@@ -55,10 +61,6 @@ const Header = () => {
     return state.user.username;
   });
 
-  const isMoviePage = () => {
-    return location.pathname.startsWith("/movies");
-  };
-
   const handleLogout = () => {
     logout();
   };
@@ -73,28 +75,19 @@ const Header = () => {
         // 새로고침하기 위해 a 사용
         <UserButtonWrapper>
           <a href="/">
-            <button onClick={handleLogout}>LOGOUT</button>
+            <Button onClick={handleLogout}>로그아웃</Button>
           </a>
         </UserButtonWrapper>
       ) : (
         <UserButtonWrapper>
           <Link to="/login">
-            <LoginButton>로그인</LoginButton>
+            <Button>로그인</Button>
           </Link>
           <Link to="/signup">
-            <LoginButton>회원가입</LoginButton>
+            <Button>회원가입</Button>
           </Link>
         </UserButtonWrapper>
       )}
-
-      {/*   // Note: the reason why the link enclosing the img logo is a direct <a> and not a <Link> is because we want clicking the logo to refresh the app completely (i.e. load new cocktails, and (I think?) clear state) - i.e. as if the user clicks the refresh button in the browser.  Therefore <a> will do this instead of just changing the url with <Link>
-       */}
-      {isMoviePage() && (
-        <Link to="/">
-          <button>뒤로가기</button>
-        </Link>
-      )}
-      {/* <Wave /> */}
     </StyledHeader>
   );
 };
