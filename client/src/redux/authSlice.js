@@ -36,17 +36,20 @@ export const userSlice = createSlice({
   // },
   extraReducers: (builder) => {
     builder.addCase(asyncLogin.pending, (state, action) => {
-      state.status = "Loading";
+      state.status = "loading";
     });
     builder.addCase(asyncLogin.fulfilled, (state, action) => {
-      state.status = "Complete";
+      state.status = "success";
       saveToken(action.payload.token);
     });
     builder.addCase(asyncLogin.rejected, (state, action) => {
-      state.status = "Failed to load";
+      state.status = "rejected";
+    });
+    builder.addCase(asyncCheckValidLogin.pending, (state, action) => {
+      state.status = "loading";
     });
     builder.addCase(asyncCheckValidLogin.fulfilled, (state, action) => {
-      console.log(action.payload);
+      state.status = "success";
       state.username = action.payload;
     });
   },

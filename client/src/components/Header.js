@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/macro";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { logout } from "../service/auth";
-import { isValidLogin } from "../utils/loginCheck.js"
+import { isValidLogin } from "../utils/loginCheck.js";
+import { getToken } from "../utils/token";
+import { asyncCheckValidLogin } from "../redux/authSlice";
 
 const StyledHeader = styled.header`
   position: fixed;
@@ -28,7 +30,7 @@ const StyledHeader = styled.header`
 
 const LogoLink = styled.a`
   text-decoration: none;
-`
+`;
 
 const Logo = styled.h1`
   color: white;
@@ -47,7 +49,7 @@ const Button = styled.button`
   border: none;
   font-size: 1.2rem;
   font-weight: 400;
-  font-family: "Hahmlet",serif;
+  font-family: "Hahmlet", serif;
   cursor: pointer;
   color: white;
   &:hover {
@@ -56,38 +58,59 @@ const Button = styled.button`
 `;
 
 const Header = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const token = getToken();
   const username = useSelector((state) => {
     return state.user.username;
   });
+  const status = useSelector((state) => {
+    return state.user.status;
+  });
+
+  useEffect(() => {
+    // 로그인 되어 있는지 & 유효한 사용자인지(토큰 만료되지 않았는지) 체크
+    token && dispatch(asyncCheckValidLogin());
+  }, [username]);
 
   const handleLogout = () => {
     logout();
   };
 
-  // 파도 scale 효과로 커질 때 x축 오버플로 방지하기 위해 부모인 Header에 overflow:hidden 줬다.
-  return (
-    <StyledHeader>
-      <LogoLink href="/">
-        <Logo>FilmPlanet</Logo>
-      </LogoLink>
-      {isValidLogin(username) ? (
-        // 새로고침하기 위해 a 사용
+  let buttonsToBeRendered;
+
+  // 로그인 했는지
+  if (token) {
+    // 위에서 보낸 asyncCheckValidLogin 요청 처리가 완료됐는지
+    if (status === "success") {
+      // 요청 처리 결과 로그인 유효 or 유효X 중 어떤 것으로 판명났는지
+      buttonsToBeRendered = isValidLogin(username) && (
         <UserButtonWrapper>
           <a href="/">
             <Button onClick={handleLogout}>로그아웃</Button>
           </a>
         </UserButtonWrapper>
-      ) : (
-        <UserButtonWrapper>
-          <Link to="/login">
-            <Button>로그인</Button>
-          </Link>
-          <Link to="/signup">
-            <Button>회원가입</Button>
-          </Link>
-        </UserButtonWrapper>
-      )}
+      );
+    }
+  } else {
+    // 비회원일 때
+    buttonsToBeRendered = (
+      <UserButtonWrapper>
+        <Link to="/login">
+          <Button>로그인</Button>
+        </Link>
+        <Link to="/signup">
+          <Button>회원가입</Button>
+        </Link>
+      </UserButtonWrapper>
+    );
+  }
+
+  return (
+    <StyledHeader>
+      <LogoLink href="/">
+        <Logo>FilmPlanet</Logo>
+      </LogoLink>
+      {buttonsToBeRendered}
     </StyledHeader>
   );
 };
