@@ -7,6 +7,7 @@ export const asyncLogin = createAsyncThunk(
   async (user) => {
     const response = await login(user);
     return response.data;
+    console.log(response.data);
   }
 );
 
@@ -28,7 +29,7 @@ export const asyncCheckValidLogin = createAsyncThunk(
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: { username: "", status: "Welcome" },
+  initialState: { username: "", isLoginValid: false, status: "Welcome" },
   // reducers: {
   //   getToken: (state, action) => {
   //     state.token = action.payload;
@@ -51,6 +52,7 @@ export const userSlice = createSlice({
     builder.addCase(asyncCheckValidLogin.fulfilled, (state, action) => {
       state.status = "success";
       state.username = action.payload;
+      state.isLoginValid = action.payload ? true : false;
     });
   },
 });
