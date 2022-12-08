@@ -2,7 +2,7 @@ import axios from "axios";
 import { getHeaders } from "../utils/getHeaders";
 import { deleteToken} from "../utils/token";
 
-const baseUrl = "http://localhost:8080";
+const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export async function login(user) {
   const { username, password } = user;
