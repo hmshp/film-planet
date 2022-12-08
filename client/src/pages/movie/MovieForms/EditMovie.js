@@ -1,75 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components/macro";
+import { Form, Wrapper, FormItem, Title, Input, Textarea, ButtonsWrapper, CancelButton, CancelLink, SubmitButton } from './MovieForm.styled';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { asyncUpdatePost } from "../../redux/postSlice";
+import { asyncUpdatePost } from "../../../redux/postSlice";
 
-const Wrapper = styled.section`
-  width: 35%;
-  font-size: 1.1rem;
-  font-family: "Hahmlet", serif;
-  font-weight: 300;
-`;
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 2.8rem;
-`;
-
-const FormItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const Input = styled.input`
-  border-radius: 4px;
-  border: none;
-  padding: 8px;
-`;
-
-const Textarea = styled.textarea`
-  border-radius: 4px;
-  padding: 8px;
-`;
-
-const ButtonsWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Button = styled.button`
-  background: linear-gradient(202.17deg, #1400ff 8.58%, #ad00ff 91.42%);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-top: 1rem;
-  cursor: pointer;
-  &:hover {
-    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
-  }
-`;
-
-const CancelLink = styled(Link)`
-  width: 40%;
-`;
-
-const CancelButton = styled(Button)`
-  width: 100%;
-  background: white;
-  color: #1b2831;
-  box-shadow: 1px 1.2px 1.2px grey;
-  &:hover {
-    background: #e4e1e1;
-  }
-`;
-
-const SubmitButton = styled(Button)`
-  width: 40%;
-`;
 
 const EditMovie = () => {
   const dispatch = useDispatch();
@@ -91,13 +26,14 @@ const EditMovie = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(asyncUpdatePost({ formData, id })).then(() => {
-      navigate("/");
+      navigate(`/movies/${id}`);
     });
   };
 
   return (
     <Wrapper>
       <Form>
+        <Title>게시물 수정</Title>
         <FormItem>
           <label htmlFor="title">제목</label>
           <Input
@@ -119,7 +55,7 @@ const EditMovie = () => {
           />
         </FormItem>
         <FormItem>
-          <label htmlFor="url">URL</label>
+          <label htmlFor="url">썸네일 이미지 URL</label>
           <Input
             onChange={handleChange}
             value={formData.url}

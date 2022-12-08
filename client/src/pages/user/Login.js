@@ -1,81 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components/macro";
 import { asyncLogin } from "../../redux/authSlice";
-
-const Wrapper = styled.section`
-  width: 35%;
-  font-size: 1.1rem;
-  font-family: "Hahmlet", serif;
-  font-weight: 300;
-`;
-
-const Title = styled.h2`
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 1.8rem;
-  font-size: 2.5rem;
-`;
-
-const LoginForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 2.8rem;
-`;
-
-const FormItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const Input = styled.input`
-  border-radius: 4px;
-  border: none;
-  padding: 8px;
-`;
-
-const SubmitButton = styled.button`
-  background: linear-gradient(202.17deg, #1400ff 8.58%, #ad00ff 91.42%);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-top: 1rem;
-  cursor: pointer;
-  &:hover {
-    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
-  }
-`;
-
-const AsideButton = styled.button`
-  width: 150px;
-  cursor: pointer;
-  border-radius: 2px;
-  border: none;
-  padding: 6px;
-  background: linear-gradient(202.17deg, #2316bc 8.58%, #62008f 91.42%);
-  color: white;
-  &:hover {
-    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
-  }
-`;
-
-const Aside = styled.aside`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-`;
+import { Wrapper, Title, Form, FormItem, Input, SubmitButton, AsideButton, Aside } from './User.styled';
 
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const status = useSelector((state) => {
-    return state.user.status;
-  });
 
   const [formData, setFormData] = useState({
     username: "",
@@ -98,7 +29,7 @@ const Login = () => {
   return (
     <Wrapper>
       <Title>로그인</Title>
-      <LoginForm onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormItem>
           <label htmlFor="username">아이디</label>
           <Input
@@ -122,10 +53,7 @@ const Login = () => {
           />
         </FormItem>
         <SubmitButton>로그인</SubmitButton>
-        <p>
-          <b>{status}</b>
-        </p>
-      </LoginForm>
+      </Form>
       <Aside>
         <p>계정이 없으신가요?</p>
         <Link to="/signup">

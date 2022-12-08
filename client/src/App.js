@@ -4,23 +4,42 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
 } from "react-router-dom";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import Home from "./pages/home/Home";
-import MyHome from "./components/MyHome";
 import Movie from "./pages/movie/Movie";
-import EditMovie from "./pages/movie/EditMovie";
-import AddMovie from "./pages/movie/AddMovie";
+import EditMovie from "./pages/movie/MovieForms/EditMovie";
+import AddMovie from "./pages/movie/MovieForms/AddMovie";
 import Login from "./pages/user/Login";
 import Signup from "./pages/user/Signup";
+import GlobalStyles from './styles/GlobalStyles';
+import Media from './styles/Media';
 
 const Main = styled.main`
-  padding: 60px 120px;
-  display: flex;
+  /* display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: center; */
   color: white;
+  width: 80%;
+  margin: 0 auto;
+  max-width: 60rem;
+  padding-top: 11rem;
+
+
+  ${Media.upToDesktop`
+    padding-top: 9rem;
+  `}
+
+  ${Media.upToLaptop`
+    padding-top: 7rem;
+  `}
+
+  ${Media.upToTablet`
+    padding-top: 4rem;
+  `}
+
+
+  padding-bottom: 4rem;
 `
 
 function App() {
@@ -37,6 +56,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Routes>
       </Main>
+      <GlobalStyles />
     </Router>
   );
 }

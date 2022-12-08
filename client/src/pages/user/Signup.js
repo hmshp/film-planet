@@ -6,74 +6,10 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { asyncSignup } from "../../redux/authSlice";
 import { checkUsernameAvailibility } from "../../service/auth";
-
-const Wrapper = styled.section`
-  width: 35%;
-  font-size: 1.1rem;
-  font-family: "Hahmlet", serif;
-  font-weight: 300;
-`;
-
-const Title = styled.h2`
-  font-weight: 400;
-  text-align: center;
-  margin-bottom: 1.8rem;
-  font-size: 2.5rem;
-`;
-
-const SignupForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin-bottom: 2.8rem;
-`;
-
-const FormItem = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
-const Input = styled.input`
-  border-radius: 4px;
-  border: none;
-  padding: 8px;
-`;
+import { Wrapper, Title, Form, FormItem, Input, SubmitButton, AsideButton, Aside } from './User.styled';
 
 const UserIdAvailability = styled.p`
-  color: #ff9800;
-`;
-
-const SubmitButton = styled.button`
-  background: linear-gradient(202.17deg, #1400ff 8.58%, #ad00ff 91.42%);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-top: 1rem;
-  cursor: pointer;
-  &:hover {
-    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
-  }
-`;
-
-const AsideButton = styled.button`
-  width: 150px;
-  cursor: pointer;
-  border-radius: 2px;
-  border: none;
-  padding: 6px;
-  background: linear-gradient(202.17deg, #2316bc 8.58%, #62008f 91.42%);
-  color: white;
-  &:hover {
-    background: linear-gradient(202.17deg, #1400ffc4 8.58%, #ad00ffcf 91.42%);
-  }
-`;
-
-const Aside = styled.aside`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  color: var(--secondary-color);
 `;
 
 const StyledContainer = styled(ToastContainer)`
@@ -131,7 +67,7 @@ const Signup = () => {
     <Wrapper>
       <StyledContainer />
       <Title>회원가입</Title>
-      <SignupForm onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <FormItem>
           <label htmlFor="username">아이디</label>
           <Input
@@ -180,7 +116,7 @@ const Signup = () => {
           />
         </FormItem>
         <SubmitButton>회원가입</SubmitButton>
-      </SignupForm>
+      </Form>
       <Aside>
         <p>이미 계정이 있으신가요?</p>
         <Link to="/login">
