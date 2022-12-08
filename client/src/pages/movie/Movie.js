@@ -25,7 +25,7 @@ const Movie = () => {
 
   useEffect(() => {
     dispatch(asyncGetPostById(id));
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <Wrapper>
