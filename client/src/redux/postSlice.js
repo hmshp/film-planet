@@ -20,7 +20,7 @@ export const asyncCreatePost = createAsyncThunk(
 export const asyncUpdatePost = createAsyncThunk(
   "postSlice/asyncUpdatePost",
   async(data) => {
-    const response = await updatePost(data);
+    await updatePost(data);
   }
 )
 

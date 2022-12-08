@@ -29,7 +29,7 @@ const MyHome = () => {
   useEffect(() => {
     // MyHome 렌더링하면 바로 (내 userId에 맞는) posts 가져와서 redux에 저장
     dispatch(asyncGetPosts());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Wrapper>

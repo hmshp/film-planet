@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Wrapper, FormItem, Title, Input, Textarea, ButtonsWrapper, CancelButton, CancelLink, SubmitButton } from './MovieForm.styled';
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { asyncUpdatePost } from "../../../redux/postSlice";
 
 

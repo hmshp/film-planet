@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { asyncCreatePost } from '../../../redux/postSlice';
 
-import { Form, Wrapper, FormItem, Title, Input, Textarea, ButtonsWrapper, Button, CancelButton, CancelLink, SubmitButton } from './MovieForm.styled';
+import { Form, Wrapper, FormItem, Title, Input, Textarea, ButtonsWrapper, CancelButton, CancelLink, SubmitButton } from './MovieForm.styled';
 
 const AddMovie = () => {
   const [formData, setFormData] = useState({

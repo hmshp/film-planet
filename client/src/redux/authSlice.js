@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { login, me, signup } from "../service/auth";
-import { getToken, saveToken } from "../utils/token";
+import { saveToken } from "../utils/token";
 
 export const asyncLogin = createAsyncThunk(
   "authSlice/asyncLogin",
   async (user) => {
     const response = await login(user);
     return response.data;
-    console.log(response.data);
   }
 );
 

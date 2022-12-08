@@ -1,5 +1,4 @@
 import axios from "axios";
-import { getToken } from "../utils/token.js";
 import { getHeaders } from "../utils/getHeaders.js";
 
 const baseUrl = process.env.REACT_APP_BASE_URL;

@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     // 로그인 되어 있는지 & 유효한 사용자인지(토큰 만료되지 않았는지) 체크
     token && dispatch(asyncCheckValidLogin());
-  }, [isLoginValid]);
+  }, [isLoginValid, token, dispatch]);
 
   const handleLogout = () => {
     logout();

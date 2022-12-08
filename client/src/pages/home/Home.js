@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
 import MyHome from "../../components/MyHome/MyHome";
 import Welcome from "../../components/Welcome/Welcome";
 import { asyncCheckValidLogin } from "../../redux/authSlice";
@@ -11,7 +10,6 @@ const Home = () => {
   const isLoginValid = useSelector((state) => state.user.isLoginValid);
   const status = useSelector((state) => state.user.status);
   const token = getToken();
-  const navigate = useNavigate();
 
   console.log(isLoginValid);
 
@@ -19,7 +17,7 @@ const Home = () => {
     // 로그인 되어 있는지 & 유효한 사용자인지(토큰 만료되지 않았는지) 체크
     // token 있을 때만 dispatch 하는 이유는 비회원일 때 401 에러 발생하는 것 방지하기 위해
     token && dispatch(asyncCheckValidLogin());
-  }, [isLoginValid]);
+  }, [isLoginValid, dispatch, token]);
 
   let componentToBeRendered;
 
