@@ -54,14 +54,14 @@ export const postSlice = createSlice({
   // },
   extraReducers: (builder) => {
     builder.addCase(asyncGetPosts.pending, (state, action) => {
-      state.status = "Loading...";
+      state.status = "loading";
     })
     builder.addCase(asyncGetPosts.fulfilled, (state, action) => {
-      state.status = "Complete";
+      state.status = "success";
       state.posts = action.payload;
     })
     builder.addCase(asyncGetPosts.rejected, (state, action) => {
-      state.status = "Failed to load";
+      state.status = "rejected";
     })
     builder.addCase(asyncCreatePost.pending, (state, action) => {
       state.status = "Loading...";
