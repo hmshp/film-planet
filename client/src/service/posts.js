@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getHeaders } from "../utils/getHeaders.js";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = "https://film-planet.herokuapp.com";
 
 // 요청 보낼 때 Header Authorization으로 jwt 토큰을 보내면 서버에서 userId를 알아서 찾은 다음 그걸 활용해서 클라이언트의 요청을 처리해 준다
 

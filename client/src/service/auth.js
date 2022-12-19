@@ -2,7 +2,7 @@ import axios from "axios";
 import { getHeaders } from "../utils/getHeaders";
 import { deleteToken} from "../utils/token";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = "https://film-planet.herokuapp.com";
 
 export async function login(user) {
   const { username, password } = user;
